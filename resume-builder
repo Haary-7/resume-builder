@@ -1,0 +1,16 @@
+#!/bin/sh
+# Bootstrap entry point: setup instructions work before Python is installed.
+APP_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd) || exit 1
+if [ "${1:-}" = "setup_guide" ]; then
+    cat "$APP_DIR/SETUP.md"
+    exit $?
+fi
+if ! command -v python3 >/dev/null 2>&1; then
+    printf '%s\n' 'Python 3.9+ is required for this command.' 'Run ./resume-builder setup_guide for installation instructions.' >&2
+    exit 1
+fi
+if ! python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 9) else 1)'; then
+    printf '%s\n' 'Python 3.9+ is required. Run ./resume-builder setup_guide.' >&2
+    exit 1
+fi
+exec python3 "$APP_DIR/studio.py" "$@"

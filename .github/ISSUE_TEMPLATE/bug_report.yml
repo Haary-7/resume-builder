@@ -1,0 +1,30 @@
+name: Bug report
+description: Report a reproducible problem using fictional or sanitized data.
+body:
+  - type: markdown
+    attributes:
+      value: "Do not include real resumes, API keys or personal logs. For security reports, see SECURITY.md."
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the command or UI steps and a fictional example if needed.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: "OS, Python version, browser/version, local or hosted mode"
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized output or screenshot

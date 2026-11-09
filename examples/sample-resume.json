@@ -1,0 +1,35 @@
+{
+  "template": "t-classic",
+  "type": {"fs": 10, "lh": 1.3, "pad": 12, "acc": "#1a1a1a"},
+  "basics": {
+    "name": "Alex Morgan",
+    "title": "Platform Engineer | Python · Linux · Developer Tools",
+    "location": "Example City",
+    "phone": "+1 202-555-0142",
+    "email": "alex@example.com",
+    "links": [{"label": "github.com/example"}]
+  },
+  "summary": "Platform engineer building reliable delivery systems and internal developer tools. Experienced in Python automation, Linux operations, CI pipelines and service observability. This resume is fictional demonstration data, not a real candidate profile.",
+  "skills": [
+    {"label": "Languages", "value": "Python, Bash, SQL"},
+    {"label": "Delivery", "value": "Git, Jenkins, Docker, Kubernetes, Ansible"},
+    {"label": "Observability", "value": "Prometheus, Grafana, structured logging"},
+    {"label": "Systems", "value": "Linux, networking, systemd, REST APIs"}
+  ],
+  "experience": [{
+    "role": "Platform Engineer", "company": "Example Systems", "client": "",
+    "location": "Example City", "start": "Jan 2022", "end": "Present",
+    "scope": "Fictional example: support delivery tooling and infrastructure for a small engineering team.",
+    "bullets": [
+      "**Built a Python release service** for 6 applications, replacing manual version selection with validated deployment inputs and a recorded release history.",
+      "**Standardized CI checks across 8 repositories**, integrating unit tests and linting with merge-request status reporting so reviewers could inspect failures before merging.",
+      "**Automated Linux provisioning for 40 hosts** using reusable Ansible roles, reducing repetitive setup and documenting the configuration for future maintenance.",
+      "**Created service-health dashboards** covering 12 services and added alerts with troubleshooting links to help engineers investigate failures.",
+      "**Mentored 2 engineers** on pipeline maintenance and rollback exercises, using documented scenarios to practice recovery before production releases."
+    ]
+  }],
+  "projects": [{"name": "Release Readiness Dashboard", "tech": "Python, REST APIs, SQLite",
+    "desc": "Built a fictional internal dashboard combining build status and release metadata into a reviewable checklist. Added tests for missing and inconsistent deployment inputs."}],
+  "education": [{"degree": "B.S., Computer Science", "school": "Example University", "year": "2021"}],
+  "certs": [], "jd": ""
+}

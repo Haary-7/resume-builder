@@ -1,0 +1,55 @@
+name: CI
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  operations:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: CLI and release tests (no runtime dependencies)
+        run: python test_operations.py
+      - name: Package clean source
+        run: python studio.py package
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Browser and PDF tests (mocked AI)
+        run: python test_studio.py --browser chromium
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-screenshots
+          path: studio-*.png
+          if-no-files-found: ignore
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose config --quiet
+      - run: docker build -t resume-studio:test .
+      - name: Test static container
+        shell: bash
+        run: |
+          docker run -d --name studio-test -p 127.0.0.1:8080:8080 resume-studio:test
+          trap 'docker logs studio-test; docker rm -f studio-test' EXIT
+          curl --retry 20 --retry-connrefused --retry-delay 1 --fail http://127.0.0.1:8080/healthz
+          curl --fail http://127.0.0.1:8080/ -o /tmp/studio.html
+          python -c "from pathlib import Path; s=Path('/tmp/studio.html').read_text(); assert 'content=\"hosted\"' in s"
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/api/models)" = '404'

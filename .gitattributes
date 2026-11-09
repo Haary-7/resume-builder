@@ -1,0 +1,11 @@
+* text=auto
+*.py text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+resume-builder text eol=lf
+*.command text eol=lf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.png binary

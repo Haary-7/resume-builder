@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: resume-studio
+    runtime: static
+    buildCommand: python3 release.py --out dist
+    staticPublishPath: ./dist
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: Referrer-Policy
+        value: no-referrer
