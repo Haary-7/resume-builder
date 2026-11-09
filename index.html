@@ -193,6 +193,9 @@ button{font-weight:500;box-shadow:none!important;background:#fff}button.pri{back
 .advanced-controls{border-top:1px solid var(--line);margin-top:18px;padding-top:14px}.advanced-controls>summary{cursor:pointer;font-size:12px;color:#536178;margin-bottom:16px}.score-wrap{background:#f6f8fa;border-radius:9px}.ai-connect{background:#f7f9fb;border-radius:9px}.ai-connect p{font-size:12px}.aibox{padding:16px}.btn-row{gap:8px}
 .library-top{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}.version-card{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);gap:10px}.version-card strong{display:block;font-size:13px;font-weight:600;overflow-wrap:anywhere}.version-card small{display:block;margin-top:4px;color:var(--dim);font-size:11px}.version-card .actions{display:flex;gap:5px}.empty-state{padding:28px 16px;text-align:center;border:1px dashed #dfe4ea;border-radius:10px;color:var(--dim);font-size:13px;line-height:1.8}.focus-preview .left{display:none}.focus-preview .right{max-width:1100px;margin:auto;width:100%;height:100%}.focus-preview .app{justify-content:center}
 .word-count{font-size:11px;color:#6b7785}.library-name{display:flex;gap:8px}.library-name input{margin-bottom:0}.library-name button{white-space:nowrap}.section-note{font-size:11px;color:var(--dim);margin-top:8px}.hint code{background:#edf1f5}
+.demo-callout{display:flex;align-items:center;gap:14px;justify-content:space-between;background:#f4f7fa;border:1px solid #dde5ee;border-radius:9px;padding:14px 16px;margin-bottom:4px}
+.demo-callout strong{display:block;font-size:13px;margin-bottom:3px}.demo-callout p{margin:0;font-size:12px;line-height:1.55;color:var(--dim)}
+.demo-callout button{white-space:nowrap}
 @media(max-width:1100px){.app{padding:12px;gap:14px}.left{min-width:350px;width:44%}.tpl-grid{grid-template-columns:1fr}.pane{padding:16px}.header-actions .save-state{display:none}}
 @media(max-width:760px){.studio-header{height:60px;padding:0 14px}.app{height:auto;display:block;padding:10px}.left{width:100%;max-width:none;min-width:0;max-height:76vh;margin-bottom:12px}.right{height:75vh}.brand strong{font-size:13px}.header-actions{gap:2px}.header-actions .history-btn{display:block!important}.tpl-grid{grid-template-columns:1fr 1fr}.tpl-card{grid-template-columns:35px 1fr;padding:9px;gap:9px}.tpl-card .template-sheet{width:35px;height:58px}.tabs{gap:0;padding:0 8px}.tab{padding:11px 8px}.header-actions .history-btn{padding:6px}.focus-preview .right{height:calc(100vh - 90px)}.word-count{display:none}}
 @media print{.app{padding:0;height:auto}.right{width:auto;max-width:none!important;margin:0;background:#fff}.page-frame{margin:0}.left{display:none}.pv-scroll{padding:0}.focus-preview .right{height:auto}#page{box-shadow:none}.studio-header,.word-count{display:none!important}}
@@ -261,7 +264,7 @@ button{font-weight:500;box-shadow:none!important;background:#fff}button.pri{back
       </div>
       <h3>Reset</h3>
       <div class="btn-row">
-        <button onclick="loadSeed()">Reload sample data</button>
+        <button onclick="loadDemo()">Load demo example</button>
         <button class="danger" onclick="blankAll()">Clear everything</button>
       </div>
     </div>
@@ -334,6 +337,43 @@ const SEED={
   "jd": ""
 };
 
+/* Fictional demo resume shown via the "Load demo example" action. */
+const DEMO={
+  "template": "t-classic",
+  "type": {"fs": 10, "lh": 1.3, "pad": 12, "acc": "#1a1a1a"},
+  "basics": {
+    "name": "Alex Morgan",
+    "title": "Platform Engineer | Python · Linux · Developer Tools",
+    "location": "Example City",
+    "phone": "+1 202-555-0142",
+    "email": "alex@example.com",
+    "links": [{"label": "github.com/example"}]
+  },
+  "summary": "Platform engineer building reliable delivery systems and internal developer tools. Experienced in Python automation, Linux operations, CI pipelines and service observability. This resume is fictional demonstration data, not a real candidate profile.",
+  "skills": [
+    {"label": "Languages", "value": "Python, Bash, SQL"},
+    {"label": "Delivery", "value": "Git, Jenkins, Docker, Kubernetes, Ansible"},
+    {"label": "Observability", "value": "Prometheus, Grafana, structured logging"},
+    {"label": "Systems", "value": "Linux, networking, systemd, REST APIs"}
+  ],
+  "experience": [{
+    "role": "Platform Engineer", "company": "Example Systems", "client": "",
+    "location": "Example City", "start": "Jan 2022", "end": "Present",
+    "scope": "Fictional example: support delivery tooling and infrastructure for a small engineering team.",
+    "bullets": [
+      "**Built a Python release service** for 6 applications, replacing manual version selection with validated deployment inputs and a recorded release history.",
+      "**Standardized CI checks across 8 repositories**, integrating unit tests and linting with merge-request status reporting so reviewers could inspect failures before merging.",
+      "**Automated Linux provisioning for 40 hosts** using reusable Ansible roles, reducing repetitive setup and documenting the configuration for future maintenance.",
+      "**Created service-health dashboards** covering 12 services and added alerts with troubleshooting links to help engineers investigate failures.",
+      "**Mentored 2 engineers** on pipeline maintenance and rollback exercises, using documented scenarios to practice recovery before production releases."
+    ]
+  }],
+  "projects": [{"name": "Release Readiness Dashboard", "tech": "Python, REST APIs, SQLite",
+    "desc": "Built a fictional internal dashboard combining build status and release metadata into a reviewable checklist. Added tests for missing and inconsistent deployment inputs."}],
+  "education": [{"degree": "B.S., Computer Science", "school": "Example University", "year": "2021"}],
+  "certs": [], "jd": ""
+};
+
 const TPLS=[
  {id:"t-classic",n:"ATS Classic",d:"Helvetica, ruled headings. Safest default.",
   type:{fs:9.0,lh:1.225,pad:8.5}},
@@ -401,7 +441,7 @@ function setP(p,v){const k=p.split(".");const last=k.pop();
 /* ============================== EDITOR ============================== */
 function editor(){
  const e=S.experience,pr=S.projects,ed=S.education,sk=S.skills,ce=S.certs||[];
- let h=`
+ let h=`${isBlank()?`<div class="demo-callout"><div><strong>See a filled example</strong><p>Load a fictional demo resume to see how each field appears in the live preview.</p></div><button class="pri" onclick="loadDemo()">Load demo example</button></div>`:""}
  <h3>Contact</h3>
  <label>Full name</label><input data-p="basics.name" value="${esc(S.basics.name)}">
  <label>Headline — mirror the job title you're applying for</label>
@@ -864,6 +904,12 @@ document.getElementById("loadF").addEventListener("change",e=>{
  r.onload=()=>{try{const candidate=JSON.parse(r.result);if(!validResume(candidate))throw new Error('schema');S=candidate;if(!S.certs)S.certs=[];save();redraw();
    toast('Resume imported')}catch(x){toast('Invalid resume JSON. Your existing resume is unchanged.')}finally{e.target.value=''}};
  r.readAsText(f)});
+function loadDemo(){if(!isBlank()&&!confirm("Replace everything with the demo example?"))return;
+ S=JSON.parse(JSON.stringify(DEMO));save();redraw();toast("Demo example loaded — edit any field to make it yours.")}
+function isBlank(){const b=S.basics;
+ return !b.name.trim()&&!b.title.trim()&&!b.email.trim()&&!b.phone.trim()&&!S.summary.trim()&&
+  !S.skills.some(x=>x.value.trim())&&!S.experience.some(j=>j.role.trim()||j.company.trim())&&
+  !S.projects.some(p=>p.name.trim())}
 function loadSeed(){if(confirm("Replace everything with the sample resume?")){
  S=JSON.parse(JSON.stringify(SEED));save();redraw()}}
 function blankAll(){if(confirm("Clear all content? This cannot be undone.")){
